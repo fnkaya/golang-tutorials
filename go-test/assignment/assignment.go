@@ -1,9 +1,7 @@
 package assignment
 
 import (
-	"fmt"
 	"math"
-	"reflect"
 	"sort"
 	"strings"
 )
@@ -72,21 +70,14 @@ func WordSplit(arr [2]string) interface{} {
 }
 
 func VariadicSet(i ...interface{}) []interface{} {
-	m := make(map[string]interface{})
-	sb := strings.Builder{}
+	m := make(map[interface{}]struct{})
+	var result []interface{}
+
 	for _, v := range i {
-		sb.Reset()
-		sb.WriteString(reflect.TypeOf(v).String())
-		sb.WriteString("-")
-		sb.WriteString(fmt.Sprintf("%v", v))
-		m[sb.String()] = v
+		if _, ok := m[v]; !ok {
+			m[v] = struct{}{}
+			result = append(result, v)
+		}
 	}
-
-	values := make([]interface{}, 0, len(m))
-
-	for _, v := range m {
-		values = append(values, v)
-	}
-
-	return values
+	return result
 }
